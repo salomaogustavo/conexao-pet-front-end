@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Conexão Pet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Bem-vindo ao Conexão Pet
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Cadastre e gerêncie os animais e as adoções com mais facilidade!
+    </ion-card-content>
+  </ion-card>
+
+  <ion-row>
+    <ion-col>
+      <ion-card>
+        <ion-card-header [routerLink]="['/animais']">
+          <ion-card-title>
+            <ion-icon name="paw" class="ion-float-left ion-margin-end" style="cursor: pointer;"></ion-icon>
+            Animais
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+    <ion-col>
+      <ion-card>
+        <ion-card-header [routerLink]="['/pessoas']">
+          <ion-card-title>
+            <ion-icon name="people-circle" class="ion-float-left ion-margin-end" style="cursor: pointer;"></ion-icon>
+            Pessoas
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+    <ion-col>
+      <ion-card>
+        <ion-card-header [routerLink]="['/adocoes']">
+          <ion-card-title>
+            <ion-icon name="bag-handle" class="ion-float-left ion-margin-end" style="cursor: pointer;"></ion-icon>
+            Adoções
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>    
+  </ion-row>
+</ion-content>

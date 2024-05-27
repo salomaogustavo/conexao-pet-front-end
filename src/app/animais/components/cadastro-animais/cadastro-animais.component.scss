@@ -1,0 +1,18 @@
+.custom-image-card {
+    max-width: 20; /* Defina a largura máxima desejada para o card da imagem */
+    margin:left; /* Centralize o card na tela */
+  }
+  
+  /* Adicione estilos personalizados para limitar o tamanho da imagem dentro do card */
+  .custom-image {
+
+      width: 250px;
+      height: 300px;
+
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  }
+
+  

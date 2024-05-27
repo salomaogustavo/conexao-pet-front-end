@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Cadastro de Adoções</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="adocaoForm">
+
+    <ion-item>
+      <ion-label position="floating">Descricao: </ion-label>
+      <ion-input formControlName="descricao" type="text"> </ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="descricao?.invalid && (descricao?.dirty || descricao?.touched)">
+        <small *ngIf="descricao?.errors?.['required']">
+          O campo descricao é obrigatório
+        </small>
+        <small *ngIf="descricao?.errors?.['minlength']">
+          O campo descricao deve conter no mínimo
+          {{ descricao?.errors?.['minlength'].requiredLength }} caracteres
+        </small>
+        <small *ngIf="descricao?.errors?.['maxlength']">
+          O campo descricao deve conter no máximo
+          {{ descricao?.errors?.['maxlength'].requiredLength }} caracteres
+        </small>
+      </ion-text>
+    </ion-item>    
+
+    <ion-item>
+      <ion-label>Pessoa:</ion-label>
+      <ion-select formControlName="idPessoa" placeholder="Selecione uma pessoa">
+        <!-- Lista de pessoas -->
+        <ion-select-option *ngFor="let pessoa of pessoas" [value]="pessoa.id">
+          {{ pessoa.nome }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>Animal:</ion-label>
+      <ion-select formControlName="idAnimal" placeholder="Selecione um animal">
+        <!-- Lista de animais -->
+        <ion-select-option *ngFor="let animal of animais" [value]="animal.id">
+          {{ animal.nome }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Rua: </ion-label>
+      <ion-input formControlName="rua" type="text"> </ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="rua?.invalid && (rua?.dirty || rua?.touched)">
+        <small *ngIf="rua?.errors?.['required']">
+          O campo rua é obrigatório
+        </small>
+        <small *ngIf="rua?.errors?.['minlength']">
+          O campo rua deve conter no mínimo
+          {{ rua?.errors?.['minlength'].requiredLength }} caracteres
+        </small>
+        <small *ngIf="rua?.errors?.['maxlength']">
+          O campo rua deve conter no máximo
+          {{ rua?.errors?.['maxlength'].requiredLength }} caracteres
+        </small>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Bairro: </ion-label>
+      <ion-input formControlName="bairro" type="text"> </ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="bairro?.invalid && (bairro?.dirty || bairro?.touched)">
+        <small *ngIf="bairro?.errors?.['required']">
+          O campo bairro é obrigatório
+        </small>
+        <small *ngIf="bairro?.errors?.['minlength']">
+          O campo bairro deve conter no mínimo
+          {{ bairro?.errors?.['minlength'].requiredLength }} caracteres
+        </small>
+        <small *ngIf="bairro?.errors?.['maxlength']">
+          O campo bairro deve conter no máximo
+          {{ bairro?.errors?.['maxlength'].requiredLength }} caracteres
+        </small>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Cidade: </ion-label>
+      <ion-input formControlName="cidade" type="text"> </ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="cidade?.invalid && (cidade?.dirty || cidade?.touched)">
+        <small *ngIf="cidade?.errors?.['required']">
+          O campo cidade é obrigatório
+        </small>
+        <small *ngIf="cidade?.errors?.['minlength']">
+          O campo cidade deve conter no mínimo
+          {{ cidade?.errors?.['minlength'].requiredLength }} caracteres
+        </small>
+        <small *ngIf="cidade?.errors?.['maxlength']">
+          O campo cidade deve conter no máximo
+          {{ cidade?.errors?.['maxlength'].requiredLength }} caracteres
+        </small>
+      </ion-text>
+    </ion-item>
+
+    <ion-fab vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="salvar()" [disabled]="!adocaoForm.valid">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </form> 
+</ion-content>

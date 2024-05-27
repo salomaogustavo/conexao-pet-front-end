@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Adoções</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let adocao of adocoes">
+      <ion-label>{{adocao.descricao}}</ion-label>
+      <ion-buttons>
+        <ion-button color="primary" [routerLink]="['edicao', adocao.id]">
+          <ion-icon name="create" slot="icon-only"></ion-icon> 
+        </ion-button>
+        <ion-button color="primary" (click)="confirmarExclusao(adocao)">
+          <ion-icon name="trash"  slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+ 
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['cadastro']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

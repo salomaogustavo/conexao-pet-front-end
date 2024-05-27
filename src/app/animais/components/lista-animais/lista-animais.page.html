@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Animais</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size-lg="4" size-md="6" size-sm="12" *ngFor="let animal of animais">
+      <ion-card>
+        <ion-img [src]="animal.imagem" alt="Imagem Não Cadastrada" style="height:300px; width:max-content;"></ion-img>
+        <ion-card-header>
+          <ion-card-title>{{ animal.nome }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+        </ion-card-content>
+        <ion-buttons>
+          <ion-button color="primary" [routerLink]="['edicao', animal.id]">
+            <ion-icon name="create" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button color="primary" (click)="confirmarExclusao(animal)">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+
+
+  <ion-fab vertical="bottom" horizontal="end" style="right:20px">
+    <ion-fab-button [routerLink]="['cadastro']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
