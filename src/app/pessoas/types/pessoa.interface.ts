@@ -1,7 +1,7 @@
 import { GeneroEnum } from './genero.enum';
 
 export interface PessoaInterface {
-  id?: number | null;
+  id?: string | null;
   nome: string;
   dataNascimento: Date;
   cpf: string;

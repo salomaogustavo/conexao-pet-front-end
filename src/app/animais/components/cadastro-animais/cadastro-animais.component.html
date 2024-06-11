@@ -11,7 +11,7 @@
 
     <ion-item>
       <ion-label position="floating">Nome: </ion-label>
-      <ion-input formControlName="nome" type="text"> </ion-input>
+      <ion-input formControlName="nome" type="text"/>
       <ion-text
         color="danger"
         *ngIf="nome?.invalid && (nome?.dirty || nome?.touched)"
@@ -31,9 +31,8 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Data de nascimento: </ion-label>
-
-      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+      <ion-label>Data de nascimento: </ion-label>
+      <ion-datetime-button datetime="datetime"/>
 
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
@@ -46,14 +45,14 @@
             showDefaultButtons="true"
             doneText="Selecionar"
             cancelText="Cancelar"
-          ></ion-datetime>
+          />
         </ng-template>
       </ion-modal>
     </ion-item>
-    
+
     <ion-item>
       <ion-label position="floating">Raça: </ion-label>
-      <ion-input formControlName="raca" type="text"> </ion-input>
+      <ion-input formControlName="raca" type="text"/>
       <ion-text
         color="danger"
         *ngIf="raca?.invalid && (raca?.dirty || raca?.touched)"
@@ -62,7 +61,7 @@
           O campo raça é obrigatório
         </small>
       </ion-text>
-    </ion-item>        
+    </ion-item>
 
     <ion-list>
       <ion-list-header>
@@ -90,26 +89,20 @@
           <ion-radio slot="start" value="G">Gato</ion-radio>
         </ion-item>
       </ion-radio-group>
-    </ion-list>    
+    </ion-list>
 
     <ion-item>
-      <ion-label>Foto do Animal</ion-label>
-      <input type="file" #fileInput (change)="selecionarArquivo($event)" accept="image/*" style="display: none;">
-      <ion-icon name="camera" (click)="fileInput.click()" style="font-size: 35; cursor: pointer;"></ion-icon>
+      <ion-label position="floating">Foto do Animal: </ion-label>
+      <ion-input formControlName="foto" type="text"/>
     </ion-item>
-
-    <ion-card class="custom-image-card" *ngIf="imagensSelecionadas.length > 0">
-      <ion-card-content>
-        <img [src]="imagensSelecionadas[0]" [alt]="nome?.value || 'Imagem do Animal'" class="custom-image">
-      </ion-card-content>
-    </ion-card>
 
     <ion-fab vertical="bottom" horizontal="end">
       <ion-fab-button (click)="salvar()" [disabled]="!animalForm.valid">
         <ion-icon name="checkmark-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-  </form> 
+  </form>
+
   <div class="spacer"></div>
 </ion-content>
 

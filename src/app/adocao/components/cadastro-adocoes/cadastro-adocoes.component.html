@@ -28,21 +28,21 @@
           {{ descricao?.errors?.['maxlength'].requiredLength }} caracteres
         </small>
       </ion-text>
-    </ion-item>    
+    </ion-item>
 
     <ion-item>
       <ion-label>Pessoa:</ion-label>
-      <ion-select formControlName="idPessoa" placeholder="Selecione uma pessoa">
+      <ion-select formControlName="pessoaId" placeholder="Selecione uma pessoa">
         <!-- Lista de pessoas -->
         <ion-select-option *ngFor="let pessoa of pessoas" [value]="pessoa.id">
           {{ pessoa.nome }}
         </ion-select-option>
       </ion-select>
     </ion-item>
-    
+
     <ion-item>
       <ion-label>Animal:</ion-label>
-      <ion-select formControlName="idAnimal" placeholder="Selecione um animal">
+      <ion-select formControlName="animalId" placeholder="Selecione um animal">
         <!-- Lista de animais -->
         <ion-select-option *ngFor="let animal of animais" [value]="animal.id">
           {{ animal.nome }}
@@ -115,5 +115,5 @@
         <ion-icon name="checkmark-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-  </form> 
+  </form>
 </ion-content>

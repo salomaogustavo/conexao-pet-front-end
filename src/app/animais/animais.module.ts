@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 
 import { AnimaisPageRoutingModule } from './animais-routing.module';
-
 import { ListaAnimaisComponent } from './components/lista-animais/lista-animais.page';
 import { CadastroAnimaisComponent } from './components/cadastro-animais/cadastro-animais.component';
 
@@ -17,7 +16,7 @@ import { CadastroAnimaisComponent } from './components/cadastro-animais/cadastro
     CommonModule,
     IonicModule,
     AnimaisPageRoutingModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   declarations: [ListaAnimaisComponent, CadastroAnimaisComponent]
 })

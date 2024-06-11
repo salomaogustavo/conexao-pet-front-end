@@ -2,12 +2,12 @@ import { GeneroEnum } from './genero.enum';
 import { TipoEnum } from './tipo.enum';
 
 export interface AnimalInterface {
-  id?: number | null;
+  id?: string | null;
   nome: string;
-  dataNascimento: Date;
+  dataNascimento: string;
   raca: string;
   genero: GeneroEnum;
   tipo: TipoEnum;
-  adotado:string;
-  imagem?: string;
+  adotado: boolean;
+  foto?: string;
 }

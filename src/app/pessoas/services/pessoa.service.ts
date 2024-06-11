@@ -8,7 +8,7 @@ import { PessoaInterface } from '../types/pessoa.interface';
 })
 export class PessoaService {
 
-  private url = 'http://localhost:3000/pessoas';
+  private url = 'http://localhost:3000/pessoa';
 
   constructor(
     private httpClient: HttpClient
@@ -18,11 +18,11 @@ export class PessoaService {
     return this.httpClient.get<PessoaInterface[]>(this.url);
   }
 
-  excluir(id: number): Observable<Object> {
+  excluir(id: string): Observable<Object> {
     return this.httpClient.delete(`${this.url}/${id}`);
   }
 
-  getPessoa(id: number): Observable<PessoaInterface> {
+  getPessoa(id: string): Observable<PessoaInterface> {
     return this.httpClient.get<PessoaInterface>(`${this.url}/${id}`);
   }
 
@@ -30,15 +30,15 @@ export class PessoaService {
     return this.httpClient.post(this.url, pessoa);
   }
 
-  private atualizar(pessoa: PessoaInterface) {
-    return this.httpClient.put(`${this.url}/${pessoa.id}`, pessoa);
+  private atualizar(id: string, pessoa: PessoaInterface) {
+    return this.httpClient.patch(`${this.url}/${id}`, pessoa);
   }
 
-  salvar(pessoa: PessoaInterface) {
-    if(pessoa.id) {
-      return this.atualizar(pessoa);
-    } else {
-      return this.adicionar(pessoa);
+  salvar(id: string | null, pessoa: PessoaInterface) {
+    if( id ) {
+      return this.atualizar(id, pessoa);
     }
+
+    return this.adicionar(pessoa);
   }
 }

@@ -1,11 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AlertController,
-  ToastController,
-  ViewDidLeave,
-  ViewWillEnter,
-  ViewWillLeave,
-} from '@ionic/angular';
+import { Component } from '@angular/core';
+import { AlertController, ToastController, ViewWillEnter } from '@ionic/angular';
 import { AdocaoInterface } from '../../types/adocao.interface';
 import {AdocaoService } from '../../services/adocao.service';
 import { AnimalService } from 'src/app/animais/services/animal.service';
@@ -15,9 +9,8 @@ import { AnimalService } from 'src/app/animais/services/animal.service';
   templateUrl: './lista-adocoes.page.html',
   styleUrls: ['./lista-adocoes.page.scss'],
 })
-export class ListaAdocoesComponent
-  implements OnInit, ViewWillEnter, ViewDidLeave, ViewWillLeave
-{
+export class ListaAdocoesComponent implements ViewWillEnter {
+
   adocoes: AdocaoInterface[] = [];
 
   constructor(
@@ -29,20 +22,6 @@ export class ListaAdocoesComponent
   ionViewWillEnter() {
     this.listar();
   }
-
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter');
-  }
-
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave');
-  }
-
-  ionViewDidLeave() {
-    console.log('ionViewDidLeave');
-  }
-
-  ngOnInit() {}
 
   listar() {
     const observable = this.adocaoService.getAdocoes();
@@ -85,12 +64,23 @@ export class ListaAdocoesComponent
   private excluir(adocao: AdocaoInterface) {
     if (adocao.id) {
       this.adocaoService.excluir(adocao.id).subscribe(
-        () => this.listar(),
+        () => {
+          this.listar();
+
+          this.toastController
+          .create({
+            message: `Adoção excluida com sucesso.`,
+            duration: 5000,
+            keyboardClose: true,
+            color: 'success'
+          })
+          .then((t) => t.present());
+        },
         (erro) => {
           console.error(erro);
           this.toastController
             .create({
-              message: `Não foi possível excluir a adoção`,
+              message: `Não foi possível excluir a adoção: ${erro.error.message}`,
               duration: 5000,
               keyboardClose: true,
               color: 'danger',

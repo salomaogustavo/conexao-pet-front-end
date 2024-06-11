@@ -1,8 +1,8 @@
 export interface AdocaoInterface {
-  id?: number | null;
+  id?: string | null;
   descricao: string;
-  idPessoa: number;
-  idAnimal: number;
+  pessoaId: string;
+  animalId: string;
   dataCadastro: Date;
   rua: string;
   bairro: string;

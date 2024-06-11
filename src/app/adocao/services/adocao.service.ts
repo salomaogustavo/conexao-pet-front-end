@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AdocaoService {
 
-  private url = 'http://localhost:3000/adocoes';
+  private url = 'http://localhost:3000/adocao';
 
   constructor(
     private httpClient: HttpClient
@@ -19,11 +19,11 @@ export class AdocaoService {
     return this.httpClient.get<AdocaoInterface[]>(this.url);
   }
 
-  excluir(id: number): Observable<Object> {
+  excluir(id: string): Observable<Object> {
     return this.httpClient.delete(`${this.url}/${id}`);
   }
 
-  getAdocao(id: number): Observable<AdocaoInterface> {
+  getAdocao(id: string): Observable<AdocaoInterface> {
     return this.httpClient.get<AdocaoInterface>(`${this.url}/${id}`);
   }
 
@@ -31,15 +31,15 @@ export class AdocaoService {
     return this.httpClient.post(this.url, adocao);
   }
 
-  private atualizar(adocao: AdocaoInterface) {
-    return this.httpClient.put(`${this.url}/${adocao.id}`, adocao);
+  private atualizar(id: string, adocao: AdocaoInterface) {
+    return this.httpClient.patch(`${this.url}/${id}`, adocao);
   }
 
-  salvar(adocao: AdocaoInterface) {
-    if(adocao.id) {
-      return this.atualizar(adocao);
-    } else {
-      return this.adicionar(adocao);
+  salvar(id: string | null, adocao: AdocaoInterface) {
+    if( id ) {
+      return this.atualizar(id, adocao);
     }
+
+    return this.adicionar(adocao);
   }
 }

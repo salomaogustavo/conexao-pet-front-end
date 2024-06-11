@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CadastroAdocoesComponent } from './components/cadastro-adocoes/cadastro-adocoes.component';
-
 import { ListaAdocoesComponent } from './components/lista-adocoes/lista-adocoes.page';
 
 const routes: Routes = [

@@ -12,7 +12,8 @@ import { GeneroEnum } from '../../types/genero.enum';
   styleUrls: ['./cadastro-pessoas.component.scss'],
 })
 export class CadastroPessoasComponent implements OnInit {
-  pessoaId: number | null;
+
+  pessoaId: string | null;
   pessoaForm: FormGroup;
 
   constructor(
@@ -26,9 +27,10 @@ export class CadastroPessoasComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      this.pessoaId = parseInt(id);
+    let id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if ( id ) {
+      this.pessoaId = id;
       this.pessoaService.getPessoa(this.pessoaId).subscribe((pessoa) => {
         this.pessoaForm = this.createForm(pessoa);
       });
@@ -51,8 +53,8 @@ export class CadastroPessoasComponent implements OnInit {
       ]),
       telefone: new FormControl(pessoa?.telefone || '', [
         Validators.required,
-        Validators.pattern('[0-9]{9}'),
-      ]),       
+        Validators.pattern('[0-9]{11}'),
+      ]),
       genero: new FormControl(
         pessoa?.genero || GeneroEnum.FEMININO,
         Validators.required
@@ -61,17 +63,43 @@ export class CadastroPessoasComponent implements OnInit {
   }
 
   salvar() {
-    const pessoa: PessoaInterface = {
+    let pessoa: PessoaInterface = {
       ...this.pessoaForm.value,
-      id: this.pessoaId,
     };
-    this.pessoaService.salvar(pessoa).subscribe(
-      () => this.router.navigate(['pessoas']),
-      (erro) => {
-        console.error(erro);
+
+    let message = '';
+
+    this.pessoaService.salvar(this.pessoaId, pessoa).subscribe(
+      () => {
+        this.router.navigate(['pessoas']);
+
+        if ( !this.pessoaId ) {
+          message = `Pessoa cadastrada com sucesso.`;
+        } else {
+          message = `Pessoa atualizada com sucesso.`;
+        }
+
         this.toastController
           .create({
-            message: `Não foi possível salvar a pessoa ${pessoa.nome}`,
+            message: message,
+            duration: 5000,
+            keyboardClose: true,
+            color: 'success',
+          })
+          .then((t) => t.present());
+      },
+      (erro) => {
+        console.error(erro);
+
+        if ( !this.pessoaId ) {
+          message = `Não foi possível salvar a pessoa ${pessoa.nome}: ${erro.error.message}`;
+        } else {
+          message = `Não foi possível atualizar a pessoa ${pessoa.nome}: ${erro.error.message}`;
+        }
+
+        this.toastController
+          .create({
+            message: message,
             duration: 5000,
             keyboardClose: true,
             color: 'danger',
@@ -88,7 +116,7 @@ export class CadastroPessoasComponent implements OnInit {
   get cpf() {
     return this.pessoaForm.get('cpf');
   }
-  
+
   get telefone() {
     return this.pessoaForm.get('telefone');
   }

@@ -7,16 +7,17 @@ import { AnimalService } from '../../services/animal.service';
 import { GeneroEnum } from '../../types/genero.enum';
 import { TipoEnum } from '../../types/tipo.enum';
 
-
 @Component({
   selector: 'app-animais-cadastro',
   templateUrl: './cadastro-animais.component.html',
   styleUrls: ['./cadastro-animais.component.scss'],
 })
 export class CadastroAnimaisComponent implements OnInit {
-  animalId: number | null;
+
+  private URL_PATTERN: RegExp = new RegExp(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
+
+  animalId: string | null;
   animalForm: FormGroup;
-  imagensSelecionadas: string[] = [];
 
   constructor(
     private toastController: ToastController,
@@ -29,15 +30,12 @@ export class CadastroAnimaisComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      this.animalId = parseInt(id);
+    let id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if ( id ) {
+      this.animalId = id;
       this.animalService.getAnimal(this.animalId).subscribe((animal) => {
         this.animalForm = this.createForm(animal);
-
-        if (animal.imagem) {
-          this.imagensSelecionadas.push(animal.imagem);
-        }
       });
     }
   }
@@ -54,7 +52,7 @@ export class CadastroAnimaisComponent implements OnInit {
       ),
       raca: new FormControl(animal?.raca || '', [
         Validators.required,
-      ]),       
+      ]),
       genero: new FormControl(
         animal?.genero || GeneroEnum.MACHO,
         Validators.required
@@ -62,49 +60,69 @@ export class CadastroAnimaisComponent implements OnInit {
       tipo: new FormControl(
         animal?.tipo || TipoEnum.CACHORRO,
         Validators.required
-      ),   
-      imagem: new FormControl(animal?.imagem || ''),   
+      ),
+      foto: new FormControl('http://', Validators.pattern(this.URL_PATTERN)),
     });
   }
 
 
   salvar() {
-    const animal: AnimalInterface = {
+    let animal: AnimalInterface = {
       ...this.animalForm.value,
-      id: this.animalId,
-      imagem: this.imagensSelecionadas[0] || '',
-      adotado: 'N',
+      adotado: false,
     };
-    console.log('Animal para salvar:', animal);
-    this.animalService.salvar(animal).subscribe(
-      () => this.router.navigate(['animais']),
-      (erro) => {
-        console.error(erro);
+
+    animal.dataNascimento = this.formatarDataDeNascimento(animal.dataNascimento);
+    let message = ''
+
+    this.animalService.salvar(this.animalId, animal).subscribe(
+      () => {
+        this.router.navigate(['animais']);
+
+        if ( !this.animalId ) {
+          message = `Animal cadastrado com sucesso.`;
+        } else {
+          message = `Animal atualizado com sucesso.`;
+        }
+
         this.toastController
-          .create({
-            message: `Não foi possível salvar o animal ${animal.nome}`,
-            duration: 5000,
-            keyboardClose: true,
-            color: 'danger',
-          })
-          .then((t) => t.present());
+        .create({
+          message: message,
+          duration: 5000,
+          keyboardClose: true,
+          color: 'success',
+        })
+        .then((t) => t.present());
+      },
+      (erro) => {
+        if ( !this.animalId ) {
+          message = `Não foi possível salvar o animal ${animal.nome}: ${erro.error.message}`;
+        } else {
+          message = `Não foi possível atualizar o animal ${animal.nome}: ${erro.error.message}`;
+        }
+
+        this.toastController
+        .create({
+          message: message,
+          duration: 5000,
+          keyboardClose: true,
+          color: 'danger',
+        })
+        .then((t) => t.present());
+
+        console.error(erro);
       }
     );
   }
 
-  selecionarArquivo(event: any) {
-    const arquivo = event.target.files[0];
-  
-    if (arquivo) {
-      const url = URL.createObjectURL(arquivo);
-      console.log('URL da imagem:', url);
-  
-      // Atualiza a array com a nova imagem (substituindo qualquer imagem existente)
-      this.imagensSelecionadas = [url];
-  
-      // Define a propriedade 'imagem' do formulário com a URL, garantindo que seja uma string
-      this.animalForm.get('imagem')?.setValue(url ?? '');
-    }
+  formatarDataDeNascimento(dataNascimento: string) {
+    let dataNascimentoDate = new Date(dataNascimento);
+    let offset = dataNascimentoDate.getTimezoneOffset() * 60 * 1000;
+    let dataNascimentoSemOffset = new Date(dataNascimentoDate.getTime() - offset);
+    let isoString = dataNascimentoSemOffset.toISOString();
+    isoString = isoString.split('T')[0];
+
+    return isoString;
   }
 
   get nome() {
@@ -116,7 +134,7 @@ export class CadastroAnimaisComponent implements OnInit {
   }
 
   get imagem() {
-    return this.animalForm.get('imagem');
+    return this.animalForm.get('foto');
   }
-
 }
+

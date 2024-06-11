@@ -1,22 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AlertController,
-  ToastController,
-  ViewDidLeave,
-  ViewWillEnter,
-  ViewWillLeave,
-} from '@ionic/angular';
+import { Component } from '@angular/core';
+import { AlertController, ToastController, ViewWillEnter } from '@ionic/angular';
 import { AnimalInterface } from '../../types/animal.interface';
-import {AnimalService } from '../../services/animal.service';
+import { AnimalService } from '../../services/animal.service';
 
 @Component({
   selector: 'app-animais',
   templateUrl: './lista-animais.page.html',
   styleUrls: ['./lista-animais.page.scss'],
 })
-export class ListaAnimaisComponent
-  implements OnInit, ViewWillEnter, ViewDidLeave, ViewWillLeave
-{
+export class ListaAnimaisComponent implements ViewWillEnter {
+
   animais: AnimalInterface[] = [];
 
   constructor(
@@ -29,31 +22,18 @@ export class ListaAnimaisComponent
     this.listar();
   }
 
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter');
-  }
-
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave');
-  }
-
-  ionViewDidLeave() {
-    console.log('ionViewDidLeave');
-  }
-
-  ngOnInit() {}
-
   listar() {
     const observable = this.animalService.getAnimais();
+
     observable.subscribe(
       (dados) => {
-        this.animais = dados.filter(animal => animal.adotado === 'N');
+        this.animais = dados.filter(animal => animal.adotado === false);
       },
       (erro) => {
         console.error(erro);
         this.toastController
           .create({
-            message: `Não foi possível listar as pessoas`,
+            message: `Não foi possível listar os animais.`,
             duration: 5000,
             keyboardClose: true,
             color: 'danger',
@@ -82,21 +62,52 @@ export class ListaAnimaisComponent
   }
 
   private excluir(animal: AnimalInterface) {
-    if (animal.id) {
+    if ( animal.id ) {
       this.animalService.excluir(animal.id).subscribe(
-        () => this.listar(),
+        () => {
+          this.listar();
+
+          this.toastController
+          .create({
+            message: `Animal excluido com sucesso.`,
+            duration: 5000,
+            keyboardClose: true,
+            color: 'success'
+          })
+          .then((t) => t.present());
+        },
         (erro) => {
           console.error(erro);
           this.toastController
             .create({
-              message: `Não foi possível excluir o animal ${animal.nome}`,
-              duration: 5000,
+              message: `Não foi possível excluir o animal ${animal.nome}: ${erro.error.message}`,
+        duration: 5000,
               keyboardClose: true,
-              color: 'danger',
+              color: 'danger'
             })
             .then((t) => t.present());
         }
       );
     }
   }
+
+  public calcularIdade(dataNascimento: string): number {
+    let newDataNascimento = new Date(dataNascimento);
+    let dataAtual = new Date();
+    let idade = dataAtual.getFullYear() - newDataNascimento.getFullYear();
+    let diferencaMensal = dataAtual.getMonth() - newDataNascimento.getMonth();
+
+    if (
+      diferencaMensal < 0 ||
+      (
+        diferencaMensal === 0 &&
+        dataAtual.getDate() < newDataNascimento.getDate()
+      )
+    ) {
+      idade--;
+    }
+
+    return idade;
+  }
 }
+

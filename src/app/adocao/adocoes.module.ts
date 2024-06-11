@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 
 import { AdocoesPageRoutingModule } from './adocoes-routing.module';
-
 import { ListaAdocoesComponent } from './components/lista-adocoes/lista-adocoes.page';
 import { CadastroAdocoesComponent } from './components/cadastro-adocoes/cadastro-adocoes.component';
 
@@ -17,7 +16,7 @@ import { CadastroAdocoesComponent } from './components/cadastro-adocoes/cadastro
     CommonModule,
     IonicModule,
     AdocoesPageRoutingModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   declarations: [ListaAdocoesComponent, CadastroAdocoesComponent]
 })

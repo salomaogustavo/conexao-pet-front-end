@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CadastroAnimaisComponent } from './components/cadastro-animais/cadastro-animais.component';
-
 import { ListaAnimaisComponent } from './components/lista-animais/lista-animais.page';
 
 const routes: Routes = [

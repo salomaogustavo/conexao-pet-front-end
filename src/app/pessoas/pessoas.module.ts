@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 
 import { PessoasPageRoutingModule } from './pessoas-routing.module';
-
 import { ListaPessoasComponent } from './components/lista-pessoas/lista-pessoas.page';
 import { CadastroPessoasComponent } from './components/cadastro-pessoas/cadastro-pessoas.component';
 
@@ -17,7 +16,7 @@ import { CadastroPessoasComponent } from './components/cadastro-pessoas/cadastro
     CommonModule,
     IonicModule,
     PessoasPageRoutingModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   declarations: [ListaPessoasComponent, CadastroPessoasComponent]
 })
